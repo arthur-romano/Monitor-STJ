@@ -221,6 +221,17 @@ def split_assuntos(s):
             out.append(titulo(p))
     return out[:6]
 
+
+def categoria(s):
+    # O "ramo do direito" (DIREITO CIVIL, DIREITO TRIBUTARIO, ...) vem em CAIXA
+    # ALTA na lista de assuntos, mas NEM SEMPRE na primeira posicao (as vezes
+    # aparece no fim). Pega o primeiro trecho em maiuscula que comeca com DIREITO.
+    for p in s.split(","):
+        p = re.sub(r"^\s*\d+\s*-\s*", "", p).strip()
+        if p and p == p.upper() and sem_acento(p).startswith("direito"):
+            return titulo(p)
+    return "(sem classificação)"
+
 def fmt_data(d):
     # 2008-10-10 -> 10/10/2008
     d = d.strip()
@@ -242,6 +253,7 @@ for seq, rec in agora.items():
         "julg": fmt_data(rec["julgamento"]),
         "q": rec["questao"],
         "tese": rec["tese"],
+        "cat": categoria(rec["assuntos"]),
         "assuntos": split_assuntos(rec["assuntos"]),
     })
 

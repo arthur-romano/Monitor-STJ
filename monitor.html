@@ -113,6 +113,29 @@
   .datas{display:flex; gap:22px; font-size:12.5px; color:var(--txt2); font-family:var(--mono)}
 
   footer{border-top:1px solid var(--linha); color:var(--txt2); font-size:12.5px; padding:22px 0 40px}
+
+  /* abas */
+  .tabs{display:flex; gap:4px; border-bottom:1px solid var(--linha); margin-top:14px}
+  .tab{background:none; border:none; border-bottom:2px solid transparent; color:var(--txt2); font:inherit; font-weight:600; font-size:15px; padding:12px 14px; cursor:pointer; margin-bottom:-1px}
+  .tab:hover{color:var(--txt)}
+  .tab.on{color:var(--amarelo); border-bottom-color:var(--amarelo)}
+
+  /* noticias */
+  .not-head{padding:24px 0 6px}
+  .not-head h1{font-size:18px; margin:0 0 4px}
+  .not-sub{color:var(--txt2); font-size:13px; margin:0}
+  #noticias-lista{display:flex; flex-direction:column; gap:10px; padding:14px 0 60px}
+  .noticia{display:block; background:var(--surf); border:1px solid var(--linha); border-radius:12px; padding:14px 16px; text-decoration:none; transition:border-color .12s}
+  .noticia:hover{border-color:#484848}
+  .noticia .nt{font-size:15px; color:var(--txt); font-weight:500; line-height:1.42}
+  .noticia .nmeta{display:flex; gap:9px; align-items:center; flex-wrap:wrap; margin-top:8px; font-size:12.5px; color:var(--txt2)}
+  .noticia .nfonte{color:var(--amarelo); font-weight:600}
+  .noticia .nseta{color:var(--txt2)}
+  .not-filtros{display:flex; gap:10px; align-items:center; flex-wrap:wrap; padding:8px 0 4px}
+  .nf-of{display:flex; gap:6px; align-items:center; color:var(--txt2); font-size:13px; cursor:pointer}
+  .nof{font-size:11px; font-weight:700; color:var(--preto); background:var(--amarelo); padding:2px 7px; border-radius:999px}
+  .ncat{font-size:11px; font-weight:600; color:var(--txt2); border:1px solid var(--linha); padding:2px 8px; border-radius:999px}
+  .noticia .iresumo{font-size:13px; color:var(--txt2); margin-top:6px; line-height:1.45}
 </style>
 </head>
 <body>
@@ -127,6 +150,12 @@
 <div class="demo"><div class="wrap">⚠ Dados de exemplo, só para desenhar o visual. A versão real é alimentada pelo coletor que lê a base oficial do STJ.</div></div>
 
 <div class="wrap">
+  <div class="tabs">
+    <button id="tab-prec" class="tab on" type="button">Precedentes</button>
+    <button id="tab-not" class="tab" type="button">Notícias</button>
+  </div>
+
+  <div id="view-precedentes">
   <section class="hero">
     <h1>Desde a última checagem</h1>
     <div class="mudou">
@@ -146,6 +175,7 @@
     <button class="chip" data-tipo="PUIL" aria-pressed="false">PUIL</button>
     <span class="sep"></span>
     <select id="f-orgao"><option value="">Todos os órgãos</option></select>
+    <select id="f-cat"><option value="">Todas as áreas</option></select>
     <select id="f-status">
       <option value="ativos">Situação: ativos (padrão)</option>
       <option value="Aguardando julgamento">Aguardando julgamento</option>
@@ -164,6 +194,26 @@
       <div class="vazio">Selecione um precedente à esquerda para ver a questão submetida e a tese.</div>
     </aside>
   </div>
+  </div><!-- /view-precedentes -->
+
+  <div id="view-noticias" hidden>
+    <div class="not-head">
+      <h1>Notícias sobre o STJ</h1>
+      <p class="not-sub">STJ oficial + imprensa (via Google News). Clique para ler a matéria no site original.</p>
+    </div>
+    <div class="not-filtros">
+      <select id="nf-cat">
+        <option value="">Todas as categorias</option>
+        <option value="Julgamento">Julgamentos</option>
+        <option value="Audiência pública">Audiências públicas</option>
+        <option value="Regimento">Regimento / normas</option>
+        <option value="Institucional">Institucional</option>
+      </select>
+      <label class="nf-of"><input type="checkbox" id="nf-oficial"> Só STJ oficial</label>
+      <input class="busca" id="nf-busca" placeholder="Buscar nas notícias…">
+    </div>
+    <div id="noticias-lista"></div>
+  </div>
 
   <footer>
     Clique na ★ de um tema para acompanhá-lo; seus favoritos ficam salvos neste navegador.<br>
@@ -178,75 +228,78 @@ const DADOS = [
     afet:"12/03/2025", julg:"03/09/2026",
     q:"Definir se a instituição financeira pode, ou não, encerrar unilateralmente contas correntes ativas e de longa duração por alegado desinteresse comercial.",
     tese:"A vedação prevista no art. 39, IX, do CDC não se aplica à resilição unilateral de contrato de conta corrente bancária por iniciativa da instituição financeira.",
-    assuntos:["Contratos bancários","Direito do consumidor"] },
+    cat:"Direito do Consumidor", assuntos:["Contratos bancários","Direito do consumidor"] },
   { seq:2, num:"Controvérsia 801", tipo:"Controvérsia", orgao:"2ª Seção", situacao:"afetado", flag:"novo",
     afet:"24/09/2026", julg:"",
     q:"Definir a responsabilidade da credenciadora de cartão de crédito por fraudes em transações realizadas por meio de seus serviços.",
-    tese:"", assuntos:["Meios de pagamento","Responsabilidade civil"] },
+    tese:"", cat:"Direito Civil", assuntos:["Meios de pagamento","Responsabilidade civil"] },
   { seq:3, num:"Tema 1.230", tipo:"Tema Repetitivo", orgao:"Corte Especial", situacao:"afetado", flag:"",
     afet:"18/06/2026", julg:"",
     q:"Definir a possibilidade de mitigação da impenhorabilidade de vencimentos para crédito não alimentar quando a remuneração é inferior a 50 salários-mínimos.",
-    tese:"", assuntos:["Execução","Impenhorabilidade"] },
+    tese:"", cat:"Direito Processual Civil e do Trabalho", assuntos:["Execução","Impenhorabilidade"] },
   { seq:4, num:"Controvérsia 789", tipo:"Controvérsia", orgao:"2ª Seção", situacao:"afetado", flag:"novo",
     afet:"24/09/2026", julg:"",
     q:"Definir se o cancelamento unilateral de plano de saúde coletivo empresarial, sem notificação prévia ao dependente, gera dano moral in re ipsa.",
-    tese:"", assuntos:["Planos de saúde","Dano moral"] },
+    tese:"", cat:"Direito do Consumidor", assuntos:["Planos de saúde","Dano moral"] },
   { seq:5, num:"Tema 1.156", tipo:"Tema Repetitivo", orgao:"2ª Seção", situacao:"julgado", flag:"",
     afet:"05/02/2025", julg:"13/08/2026",
     q:"Definir o termo inicial dos juros de mora na repetição de indébito de tarifas bancárias.",
     tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
-    assuntos:["Contratos bancários"] },
+    cat:"Direito do Consumidor", assuntos:["Contratos bancários"] },
   { seq:6, num:"IAC 18", tipo:"IAC", orgao:"Corte Especial", situacao:"afetado", flag:"",
     afet:"30/04/2026", julg:"",
     q:"Definir o alcance da multa do art. 1.021, §4º, do CPC em agravo interno manifestamente inadmissível.",
-    tese:"", assuntos:["Processo civil","Recursos"] },
+    tese:"", cat:"Direito Processual Civil e do Trabalho", assuntos:["Processo civil","Recursos"] },
   { seq:7, num:"Tema 1.188", tipo:"Tema Repetitivo", orgao:"2ª Seção", situacao:"julgado", flag:"mud",
     afet:"11/11/2024", julg:"25/06/2026",
     q:"Definir a cumulação da cláusula penal por atraso na entrega de imóvel com encargos locatícios.",
     tese:"[Tese de exemplo — atualizada após embargos. O texto real vem da base do STJ.]",
-    assuntos:["Incorporação imobiliária"] },
+    cat:"Direito Civil", assuntos:["Incorporação imobiliária"] },
   { seq:8, num:"Tema 1.157", tipo:"Tema Repetitivo", orgao:"1ª Seção", situacao:"julgado", flag:"",
     afet:"03/04/2024", julg:"28/05/2026",
     q:"Definir se o INSS pode cancelar administrativamente benefício por incapacidade concedido por decisão judicial definitiva, sem nova ação.",
     tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
-    assuntos:["Previdenciário","Benefício por incapacidade"] },
+    cat:"Direito Previdenciário", assuntos:["Previdenciário","Benefício por incapacidade"] },
   { seq:9, num:"Controvérsia 744", tipo:"Controvérsia", orgao:"1ª Seção", situacao:"afetado", flag:"novo",
     afet:"24/09/2026", julg:"",
     q:"Definir a incidência de contribuição previdenciária sobre valores pagos a título de abono único previsto em convenção coletiva.",
-    tese:"", assuntos:["Tributário","Contribuições"] },
+    tese:"", cat:"Direito Tributário", assuntos:["Tributário","Contribuições"] },
   { seq:10, num:"Controvérsia 758", tipo:"Controvérsia", orgao:"3ª Seção", situacao:"afetado", flag:"novo",
     afet:"24/09/2026", julg:"",
     q:"Definir se a grande quantidade de droga apreendida, isoladamente, impede a aplicação da causa de diminuição do tráfico privilegiado.",
-    tese:"", assuntos:["Penal","Tráfico de drogas"] },
+    tese:"", cat:"Direito Penal", assuntos:["Penal","Tráfico de drogas"] },
   { seq:11, num:"Tema 1.209", tipo:"Tema Repetitivo", orgao:"3ª Seção", situacao:"julgado", flag:"",
     afet:"15/05/2025", julg:"20/08/2026",
     q:"Definir o marco interruptivo da prescrição da pretensão executória na execução penal.",
     tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
-    assuntos:["Processo penal","Prescrição"] },
+    cat:"Direito Processual Penal", assuntos:["Processo penal","Prescrição"] },
   { seq:12, num:"Tema 1.198", tipo:"Tema Repetitivo", orgao:"Corte Especial", situacao:"julgado", flag:"mud",
     afet:"09/10/2024", julg:"25/06/2026",
     q:"Definir se a multa diária (astreintes) por descumprimento de decisão judicial exige intimação pessoal do devedor.",
     tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
-    assuntos:["Processo civil","Astreintes"] },
+    cat:"Direito Processual Civil e do Trabalho", assuntos:["Processo civil","Astreintes"] },
   { seq:13, num:"SIRDR 42", tipo:"SIRDR", orgao:"2ª Seção", situacao:"afetado", flag:"novo",
     afet:"24/09/2026", julg:"",
     q:"Pedido de suspensão nacional dos processos que discutem a cobrança de tarifa de religação de energia elétrica, em razão de IRDR admitido em tribunal de origem.",
-    tese:"", assuntos:["Suspensão nacional","Serviços públicos"] },
+    tese:"", cat:"Direito do Consumidor", assuntos:["Suspensão nacional","Serviços públicos"] },
   { seq:14, num:"PUIL 2.015", tipo:"PUIL", orgao:"1ª Seção", situacao:"julgado", flag:"",
     afet:"10/02/2025", julg:"18/06/2026",
     q:"Uniformização de interpretação de lei federal divergente entre turmas recursais dos Juizados Especiais Federais quanto a benefício assistencial.",
     tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
-    assuntos:["Juizados Especiais","Assistência social"] },
+    cat:"Direito Previdenciário", assuntos:["Juizados Especiais","Assistência social"] },
   { seq:15, num:"Tema 1.044", tipo:"Tema Repetitivo", orgao:"1ª Seção", situacao:"cancelado", flag:"",
     afet:"20/08/2021", julg:"",
     q:"Definir a base de cálculo da contribuição ao SAT/RAT — precedente cancelado por perda de objeto após alteração legislativa.",
-    tese:"", assuntos:["Tributário"] },
+    tese:"", cat:"Direito Tributário", assuntos:["Tributário"] },
   { seq:16, num:"Tema 905", tipo:"Tema Repetitivo", orgao:"2ª Seção", situacao:"revisado", flag:"mud",
     afet:"10/05/2017", julg:"14/08/2024",
     q:"Índices de correção monetária e juros de mora aplicáveis às condenações da Fazenda Pública (tese revista parcialmente).",
     tese:"[Tese revista — o texto real e o vínculo com o entendimento anterior vêm da base do STJ.]",
-    assuntos:["Processo civil","Juros e correção"] },
+    cat:"Direito Processual Civil e do Trabalho", assuntos:["Processo civil","Juros e correção"] },
 ];
+
+// ---- O coletor de noticias injeta aqui as manchetes/itens reais. Ficam vazios no template. ----
+const NOTICIAS = [];
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let tiposAtivos=new Set(), selecionado=null, soFavoritos=false;
@@ -270,6 +323,10 @@ $("#m-tese").textContent = DADOS.filter(d=>d.flag==="novo"&&d.situacao==="julgad
 [...new Set(DADOS.map(d=>d.orgao))].forEach(o=>{
   const op=document.createElement("option"); op.value=o; op.textContent=o; $("#f-orgao").appendChild(op);
 });
+// popular filtro de área (ramo do direito), em ordem alfabética
+[...new Set(DADOS.map(d=>d.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt")).forEach(c=>{
+  const op=document.createElement("option"); op.value=c; op.textContent=c; $("#f-cat").appendChild(op);
+});
 
 function tagClass(t){ return t==="Tema Repetitivo"?"rep":t==="Controvérsia"?"contro":t==="IAC"?"iac":t==="SIRDR"?"sirdr":"puil"; }
 function tagLabel(t){ return t==="Tema Repetitivo"?"Repetitivo":t; }
@@ -278,16 +335,17 @@ function dotClass(b){ return b==="Julgado"?"julgado":b==="Cancelado/Prejudicado"
 function sitColor(b){ return b==="Julgado"?"var(--verde)":b==="Cancelado/Prejudicado"?"#9a9a9a":b==="Revisado"?"#7FA8FF":"var(--ambar)"; }
 
 function render(){
-  const orgao=$("#f-orgao").value, status=$("#f-status").value, q=$("#f-busca").value.toLowerCase().trim();
+  const orgao=$("#f-orgao").value, cat=$("#f-cat").value, status=$("#f-status").value, q=$("#f-busca").value.toLowerCase().trim();
   const lista=$("#lista"); lista.innerHTML="";
   const filtrados=DADOS.filter(d=>{
     if(soFavoritos && !favoritos.has(d.seq)) return false;
     if(tiposAtivos.size && !tiposAtivos.has(d.tipo)) return false;
     if(orgao && d.orgao!==orgao) return false;
+    if(cat && d.cat!==cat) return false;
     const b=bucketOf(d.situacao);
     if(status==="ativos"){ if(b==="Cancelado/Prejudicado"||b==="Vinculada a tema") return false; }
     else if(status && status!=="todas"){ if(b!==status) return false; }
-    if(q && !(d.num+" "+d.q+" "+d.assuntos.join(" ")).toLowerCase().includes(q)) return false;
+    if(q && !(d.num+" "+d.q+" "+(d.cat||"")+" "+d.assuntos.join(" ")).toLowerCase().includes(q)) return false;
     return true;
   });
   if(!filtrados.length){ lista.innerHTML='<div class="vazio">Nada encontrado com esses filtros. Tente afrouxar a busca.</div>'; return; }
@@ -305,7 +363,7 @@ function render(){
           <button class="fav ${favoritos.has(d.seq)?'on':''}" aria-label="Favoritar" title="Acompanhar este tema">★</button>
         </span>
       </div>
-      <div class="org"><span class="dot ${dotClass(bucketOf(d.situacao))}"></span>${d.orgao} · ${bucketOf(d.situacao)}</div>
+      <div class="org"><span class="dot ${dotClass(bucketOf(d.situacao))}"></span>${d.orgao} · ${bucketOf(d.situacao)}${d.cat?` · ${d.cat}`:""}</div>
       <div class="q">${d.q}</div>`;
     el.onclick=()=>{ selecionado=d.seq; render(); detalhe(d); };
     el.querySelector(".fav").onclick=(ev)=>{ ev.stopPropagation(); toggleFav(d.seq); };
@@ -323,6 +381,7 @@ function detalhe(d){
     <div class="drow">
       <span class="tag ${tagClass(d.tipo)}">${tagLabel(d.tipo)}</span>
       <span class="tag">${d.orgao}</span>
+      ${d.cat?`<span class="tag">${d.cat}</span>`:""}
       <span class="tag" style="color:${sitColor(bucketOf(d.situacao))}">${bucketOf(d.situacao)}</span>
     </div>
     <div class="datas">
@@ -349,9 +408,46 @@ $$(".chip").forEach(c=>c.onclick=()=>{
   render();
 });
 atualizarContadorFav();
-["#f-orgao","#f-status"].forEach(s=>$(s).onchange=render);
+["#f-orgao","#f-cat","#f-status"].forEach(s=>$(s).onchange=render);
 $("#f-busca").oninput=render;
 
+// ---- notícias ----
+function renderNoticias(){
+  const box=$("#noticias-lista"); box.innerHTML="";
+  const cat=$("#nf-cat").value, soOf=$("#nf-oficial").checked, q=$("#nf-busca").value.toLowerCase().trim();
+  const lista=NOTICIAS.filter(n=>{
+    if(cat && n.categoria!==cat) return false;
+    if(soOf && !n.oficial) return false;
+    if(q && !((n.titulo+" "+(n.fonte||"")).toLowerCase().includes(q))) return false;
+    return true;
+  });
+  if(!lista.length){ box.innerHTML='<div class="vazio">Nenhuma notícia com esse filtro.</div>'; return; }
+  lista.forEach(n=>{
+    const a=document.createElement("a");
+    a.className="noticia"; a.href=n.link||"#"; a.target="_blank"; a.rel="noopener noreferrer";
+    a.innerHTML=`<div class="nt">${n.titulo}</div>`+
+      `<div class="nmeta">`+
+      (n.oficial?'<span class="nof">STJ oficial</span>':'')+
+      (n.categoria?`<span class="ncat">${n.categoria}</span>`:'')+
+      `<span class="nfonte">${n.fonte||"Fonte"}</span>`+
+      (n.data?`<span>· ${n.data}</span>`:'')+
+      `<span class="nseta">↗</span></div>`;
+    box.appendChild(a);
+  });
+}
+function trocarAba(aba){
+  const prec = aba==="prec";
+  $("#view-precedentes").hidden = !prec;
+  $("#view-noticias").hidden = prec;
+  $("#tab-prec").classList.toggle("on", prec);
+  $("#tab-not").classList.toggle("on", !prec);
+}
+$("#tab-prec").onclick=()=>trocarAba("prec");
+$("#tab-not").onclick=()=>trocarAba("not");
+["#nf-cat","#nf-oficial"].forEach(s=>$(s).onchange=renderNoticias);
+$("#nf-busca").oninput=renderNoticias;
+
+renderNoticias();
 render();
 </script>
 </body>
