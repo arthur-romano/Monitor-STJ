@@ -1,4 +1,4 @@
-RELATORIO DO COLETOR STJ  -  05/10/2026 22:25
+RELATORIO DO COLETOR STJ  -  06/10/2026 00:35
 codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
 
 == POR TIPO ==
@@ -23,9 +23,9 @@ codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
   Corte Especial: 183
   (sem órgão): 7
 
-== PRIMEIRA RODADA ==
-Esta e a foto inicial; nao ha com o que comparar ainda.
-Rode de novo depois (dias depois) e eu mostro aqui os NOVOS e os que MUDARAM.
+== NOVOS desde a ultima rodada: 0 ==
+
+== MUDARAM desde a ultima rodada: 0 ==
 
 == 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
 
