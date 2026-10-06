@@ -1,4 +1,4 @@
-RELATORIO DO COLETOR STJ  -  06/10/2026 00:57
+RELATORIO DO COLETOR STJ  -  06/10/2026 01:03
 codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
 
 == POR TIPO ==
