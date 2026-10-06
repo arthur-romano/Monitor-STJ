@@ -42,15 +42,11 @@ def gnews(consulta):
 FONTES = [
     {"tipo": "stj", "destino": "noticias", "fonte": "STJ (Notícias)",
      "url": "http://feeds.feedburner.com/STJNoticias"},
-    {"tipo": "stj", "destino": "noticias", "fonte": "STJ (Notícias)",
-     "url": "https://res.stj.jus.br/hrestp-c-portalp/RSS.xml"},
-    {"tipo": "gnews", "destino": "noticias", "fonte": None, "url": gnews("STJ")},
     {"tipo": "gnews", "destino": "noticias", "fonte": None, "url": gnews('"Superior Tribunal de Justiça"')},
     {"tipo": "gnews", "destino": "noticias", "fonte": None, "url": gnews("STJ site:migalhas.com.br")},
     {"tipo": "gnews", "destino": "noticias", "fonte": None, "url": gnews("STJ site:conjur.com.br")},
     {"tipo": "gnews", "destino": "noticias", "fonte": None, "url": gnews("STJ site:jota.info")},
     {"tipo": "gnews", "destino": "noticias", "fonte": None, "url": gnews("STJ site:valor.globo.com")},
-    {"tipo": "gnews", "destino": "noticias", "fonte": None, "url": gnews("STJ site:poder360.com.br")},
 ]
 
 
@@ -66,7 +62,10 @@ CATEGORIAS = [
                     "nega", "negou", "condena", "absolve", "fixa tese", "fixou tese", "repetitivo",
                     "sumula", "reconhece", "reconheceu", "valida", "anula", "anulou", "turma",
                     "secao", "corte especial", "relator", "acordao", "tese firmada", " tese ",
-                    "provimento", "recurso especial", "habeas corpus", "entende que", "entendeu que"]),
+                    "provimento", "recurso especial", "habeas corpus", "entende que", "entendeu que",
+                    "afasta", "afastou", "reforma", "reformou", "cassa", "cassou", "admite",
+                    "inadmite", "sobresta", "modula", "modulacao", "prescreve", "prescricao",
+                    "da provimento", "nega provimento", "desprov", "homologa", "homologou"]),
 ]
 
 
@@ -76,6 +75,35 @@ def classificar(titulo):
         if any(k in t for k in chaves):
             return nome
     return "Institucional"
+
+
+# ---- relevancia: a noticia tem de ser SOBRE o STJ (ele como sujeito), nao so cita-lo ----
+OUTROS_TRIBUNAIS = [
+    r"\bstf\b", r"\bsupremo\b", r"\btst\b", r"\btse\b", r"\btcu\b",
+    r"\bcnj\b", r"\bcarf\b", r"\btjm\b", r"\btj-?[a-z]{2}\b",
+    r"\btribunal de justica\b", r"\btrf-?\d?\b", r"\btrt-?\d?\b",
+    r"\btribunal regional\b",
+]
+
+
+def menciona_stj(tn):
+    # tn ja vem sem acento e minusculo
+    return bool(re.search(r"\bstj\b", tn)) or "superior tribunal de justica" in tn
+
+
+def outro_tribunal_antes(tn):
+    # Verdadeiro se OUTRO tribunal aparece ANTES do STJ no titulo -> ele e o
+    # sujeito da noticia (ex.: "TJSP aplica tese do STJ..."). Se o STJ vem
+    # primeiro ("STJ reforma decisao do TJSP"), o STJ e o sujeito -> mantem.
+    m = re.search(r"\bstj\b", tn)
+    i_stj = m.start() if m else tn.find("superior tribunal de justica")
+    if i_stj < 0:
+        i_stj = 10 ** 9
+    for pat in OUTROS_TRIBUNAIS:
+        mm = re.search(pat, tn)
+        if mm and mm.start() < i_stj:
+            return True
+    return False
 
 
 def baixar(url):
@@ -159,8 +187,14 @@ def coletar():
             if dt is not None and dt < limite_n:
                 continue
             categoria = classificar(titulo)
-            if not oficial and categoria == "Institucional":
-                continue  # corta imprensa irrelevante
+            if categoria == "Institucional":
+                continue  # corta ruido institucional (oficial e imprensa)
+            if not oficial:
+                tn = sem_acento(titulo)
+                if not menciona_stj(tn):
+                    continue   # a manchete nem cita o STJ -> provavelmente outro assunto
+                if outro_tribunal_antes(tn):
+                    continue   # outro tribunal e o sujeito da noticia, nao o STJ
             chave = re.sub(r"[^a-z0-9]", "", sem_acento(titulo))[:80]
             if chave in vistos_n:
                 continue
