@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monitor de Precedentes · STJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --amarelo:#FAE100; --preto:#0E0E0E; --surf:#161616; --surf2:#1E1E1E;
+    --linha:#2A2A2A; --txt:#F2F2F2; --txt2:#9A9A9A;
+    --verde:#5FD08A; --ambar:#F2B544;
+    --sans:"IBM Plex Sans",system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--preto); color:var(--txt); font-family:var(--sans);
+    font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 20px}
+
+  /* topo */
+  header{border-bottom:1px solid var(--linha); background:var(--preto); position:sticky; top:env(safe-area-inset-top,0); z-index:5}
+  .top{display:flex; align-items:center; gap:14px; padding:16px 0}
+  .mark{display:inline-flex; align-items:baseline; gap:0; background:var(--amarelo); color:var(--preto);
+    font-weight:700; font-size:15px; letter-spacing:.01em; padding:4px 8px; border-radius:6px}
+  .mark small{font-weight:700; background:var(--preto); color:var(--amarelo); border-radius:3px; padding:0 4px; margin-left:4px}
+  .ttl{font-weight:600; font-size:16px}
+  .ttl span{color:var(--txt2); font-weight:400}
+  .stamp{margin-left:auto; color:var(--txt2); font-size:12.5px; font-family:var(--mono)}
+
+  /* aviso amostra */
+  .demo{background:rgba(250,225,0,.09); border-bottom:1px solid var(--linha); color:#E9DFA0; font-size:12.5px; padding:8px 0}
+  .demo .wrap{display:flex; gap:8px; align-items:center}
+
+  /* hero: o que mudou */
+  .hero{padding:26px 0 18px}
+  .hero h1{font-size:13px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--txt2); margin:0 0 14px}
+  .mudou{display:flex; gap:28px; flex-wrap:wrap}
+  .metric{display:flex; align-items:baseline; gap:10px}
+  .metric b{font-family:var(--mono); font-size:40px; font-weight:600; line-height:1}
+  .metric .lab{font-size:13.5px; color:var(--txt2); max-width:120px}
+  .metric.novo b{color:var(--amarelo)}
+  .metric.afet b{color:var(--ambar)}
+  .metric.tese b{color:var(--verde)}
+
+  /* filtros */
+  .filtros{display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:14px 0 20px; border-top:1px solid var(--linha)}
+  .chip{background:var(--surf); border:1px solid var(--linha); color:var(--txt); font:inherit; font-size:13.5px;
+    padding:7px 13px; border-radius:999px; cursor:pointer; transition:border-color .12s, background .12s}
+  .chip:hover{border-color:#444}
+  .chip[aria-pressed="true"]{background:var(--amarelo); color:var(--preto); border-color:var(--amarelo); font-weight:600}
+  select,.busca{background:var(--surf); border:1px solid var(--linha); color:var(--txt); font:inherit; font-size:13.5px;
+    padding:7px 11px; border-radius:8px}
+  .busca{flex:1; min-width:160px}
+  .busca::placeholder{color:#6a6a6a}
+  .sep{width:1px; height:22px; background:var(--linha); margin:0 2px}
+
+  /* layout lista + detalhe */
+  .cols{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,420px); gap:22px; padding-bottom:60px; align-items:start}
+  @media(max-width:860px){ .cols{grid-template-columns:1fr} .detalhe{position:static !important} }
+
+  .lista{display:flex; flex-direction:column; gap:10px}
+  .card{background:var(--surf); border:1px solid var(--linha); border-radius:12px; padding:15px 16px; cursor:pointer;
+    transition:border-color .12s}
+  .card:hover{border-color:#484848}
+  .card.sel{border-color:var(--amarelo)}
+  .card .linha1{display:flex; align-items:center; gap:9px; flex-wrap:wrap}
+  .num{font-family:var(--mono); font-weight:600; font-size:15px}
+  .tag{font-size:11px; font-weight:600; letter-spacing:.03em; padding:3px 8px; border-radius:999px; border:1px solid var(--linha); color:var(--txt2)}
+  .tag.rep{color:var(--amarelo); border-color:rgba(250,225,0,.4)}
+  .tag.contro{color:#C9A0FF; border-color:rgba(201,160,255,.4)}
+  .tag.iac{color:#7FC7FF; border-color:rgba(127,199,255,.4)}
+  .tag.sirdr{color:#56C7C7; border-color:rgba(86,199,199,.4)}
+  .tag.puil{color:#FF9D7A; border-color:rgba(255,157,122,.4)}
+  .flag{margin-left:auto; font-size:11px; font-weight:700; letter-spacing:.03em; padding:3px 9px; border-radius:999px}
+  .flag.novo{background:var(--amarelo); color:var(--preto)}
+  .flag.mud{background:rgba(242,181,68,.16); color:var(--ambar)}
+  .card .org{color:var(--txt2); font-size:12.5px; margin:9px 0 6px; display:flex; gap:8px; align-items:center}
+  .dot{width:6px; height:6px; border-radius:50%}
+  .dot.julgado{background:var(--verde)} .dot.afetado{background:var(--ambar)}
+  .dot.cancelado{background:#8a8a8a} .dot.revisado{background:#7FA8FF}
+  .card .q{font-size:13.8px; color:#D7D7D7; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+
+  /* favoritar */
+  .direita{margin-left:auto; display:flex; align-items:center; gap:8px}
+  .direita .flag{margin-left:0}
+  .fav{background:none; border:none; cursor:pointer; color:#4a4a4a; font-size:17px; line-height:1; padding:2px 4px; border-radius:6px; transition:color .12s, transform .08s}
+  .fav:hover{color:#8a8a8a}
+  .fav.on{color:var(--amarelo)}
+  .fav:active{transform:scale(.82)}
+  .dhead{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
+  .dhead .fav{font-size:24px}
+
+  /* detalhe */
+  .detalhe{position:sticky; top:86px; background:var(--surf); border:1px solid var(--linha); border-radius:14px; padding:20px; min-height:200px}
+  .detalhe .dnum{font-family:var(--mono); font-weight:600; font-size:22px; margin:0}
+  .detalhe .drow{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:10px 0 18px}
+  .detalhe h3{font-size:11.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--txt2); margin:18px 0 6px}
+  .detalhe p{margin:0; font-size:14px; color:#DEDEDE}
+  .detalhe .tese{background:rgba(95,208,138,.08); border:1px solid rgba(95,208,138,.25); border-radius:10px; padding:12px 14px; font-size:14px}
+  .assuntos{display:flex; gap:6px; flex-wrap:wrap}
+  .assuntos span{font-size:12px; color:var(--txt2); background:var(--surf2); border:1px solid var(--linha); padding:3px 9px; border-radius:6px}
+  .vazio{color:var(--txt2); font-size:14px; text-align:center; padding:40px 10px}
+  .datas{display:flex; gap:22px; font-size:12.5px; color:var(--txt2); font-family:var(--mono)}
+
+  footer{border-top:1px solid var(--linha); color:var(--txt2); font-size:12.5px; padding:22px 0 40px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <span class="mark">STJ<small>AI</small></span>
+    <span class="ttl">Monitor de Precedentes <span>· repetitivos e controvérsias</span></span>
+    <span class="stamp" id="stamp">atualizado —</span>
+  </div>
+</header>
+
+<div class="demo"><div class="wrap">⚠ Dados de exemplo, só para desenhar o visual. A versão real é alimentada pelo coletor que lê a base oficial do STJ.</div></div>
+
+<div class="wrap">
+  <section class="hero">
+    <h1>Desde a última checagem</h1>
+    <div class="mudou">
+      <div class="metric novo"><b id="m-novo">0</b><span class="lab">novos precedentes</span></div>
+      <div class="metric afet"><b id="m-afet">0</b><span class="lab">recém-afetados</span></div>
+      <div class="metric tese"><b id="m-tese">0</b><span class="lab">novas teses firmadas</span></div>
+    </div>
+  </section>
+
+  <div class="filtros">
+    <button class="chip" id="chip-fav" aria-pressed="false">★ Favoritos<span id="fav-count"></span></button>
+    <span class="sep"></span>
+    <button class="chip" data-tipo="Tema Repetitivo" aria-pressed="false">Repetitivo</button>
+    <button class="chip" data-tipo="Controvérsia" aria-pressed="false">Controvérsia</button>
+    <button class="chip" data-tipo="IAC" aria-pressed="false">IAC</button>
+    <button class="chip" data-tipo="SIRDR" aria-pressed="false">SIRDR</button>
+    <button class="chip" data-tipo="PUIL" aria-pressed="false">PUIL</button>
+    <span class="sep"></span>
+    <select id="f-orgao"><option value="">Todos os órgãos</option></select>
+    <select id="f-status">
+      <option value="ativos">Situação: ativos (padrão)</option>
+      <option value="Aguardando julgamento">Aguardando julgamento</option>
+      <option value="Julgado">Julgado</option>
+      <option value="Revisado">Revisado (tese alterada)</option>
+      <option value="Vinculada a tema">Vinculada a tema (sem tese própria)</option>
+      <option value="Cancelado/Prejudicado">Cancelado / prejudicado</option>
+      <option value="todas">Todas as situações</option>
+    </select>
+    <input class="busca" id="f-busca" placeholder="Buscar por assunto, número, palavra…">
+  </div>
+
+  <div class="cols">
+    <div class="lista" id="lista"></div>
+    <aside class="detalhe" id="detalhe">
+      <div class="vazio">Selecione um precedente à esquerda para ver a questão submetida e a tese.</div>
+    </aside>
+  </div>
+
+  <footer>
+    Clique na ★ de um tema para acompanhá-lo; seus favoritos ficam salvos neste navegador.<br>
+    Protótipo STJAI · a tela final é gerada automaticamente a partir da base de Precedentes Qualificados do STJ (dados abertos, CC-BY).
+  </footer>
+</div>
+
+<script>
+// ---- DADOS DE EXEMPLO (ilustrativos). O coletor substitui isto por dados reais. ----
+const DADOS = [
+  { seq:1, num:"Tema 1.119", tipo:"Tema Repetitivo", orgao:"2ª Seção", situacao:"julgado", flag:"novo",
+    afet:"12/03/2025", julg:"03/09/2026",
+    q:"Definir se a instituição financeira pode, ou não, encerrar unilateralmente contas correntes ativas e de longa duração por alegado desinteresse comercial.",
+    tese:"A vedação prevista no art. 39, IX, do CDC não se aplica à resilição unilateral de contrato de conta corrente bancária por iniciativa da instituição financeira.",
+    assuntos:["Contratos bancários","Direito do consumidor"] },
+  { seq:2, num:"Controvérsia 801", tipo:"Controvérsia", orgao:"2ª Seção", situacao:"afetado", flag:"novo",
+    afet:"24/09/2026", julg:"",
+    q:"Definir a responsabilidade da credenciadora de cartão de crédito por fraudes em transações realizadas por meio de seus serviços.",
+    tese:"", assuntos:["Meios de pagamento","Responsabilidade civil"] },
+  { seq:3, num:"Tema 1.230", tipo:"Tema Repetitivo", orgao:"Corte Especial", situacao:"afetado", flag:"",
+    afet:"18/06/2026", julg:"",
+    q:"Definir a possibilidade de mitigação da impenhorabilidade de vencimentos para crédito não alimentar quando a remuneração é inferior a 50 salários-mínimos.",
+    tese:"", assuntos:["Execução","Impenhorabilidade"] },
+  { seq:4, num:"Controvérsia 789", tipo:"Controvérsia", orgao:"2ª Seção", situacao:"afetado", flag:"novo",
+    afet:"24/09/2026", julg:"",
+    q:"Definir se o cancelamento unilateral de plano de saúde coletivo empresarial, sem notificação prévia ao dependente, gera dano moral in re ipsa.",
+    tese:"", assuntos:["Planos de saúde","Dano moral"] },
+  { seq:5, num:"Tema 1.156", tipo:"Tema Repetitivo", orgao:"2ª Seção", situacao:"julgado", flag:"",
+    afet:"05/02/2025", julg:"13/08/2026",
+    q:"Definir o termo inicial dos juros de mora na repetição de indébito de tarifas bancárias.",
+    tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
+    assuntos:["Contratos bancários"] },
+  { seq:6, num:"IAC 18", tipo:"IAC", orgao:"Corte Especial", situacao:"afetado", flag:"",
+    afet:"30/04/2026", julg:"",
+    q:"Definir o alcance da multa do art. 1.021, §4º, do CPC em agravo interno manifestamente inadmissível.",
+    tese:"", assuntos:["Processo civil","Recursos"] },
+  { seq:7, num:"Tema 1.188", tipo:"Tema Repetitivo", orgao:"2ª Seção", situacao:"julgado", flag:"mud",
+    afet:"11/11/2024", julg:"25/06/2026",
+    q:"Definir a cumulação da cláusula penal por atraso na entrega de imóvel com encargos locatícios.",
+    tese:"[Tese de exemplo — atualizada após embargos. O texto real vem da base do STJ.]",
+    assuntos:["Incorporação imobiliária"] },
+  { seq:8, num:"Tema 1.157", tipo:"Tema Repetitivo", orgao:"1ª Seção", situacao:"julgado", flag:"",
+    afet:"03/04/2024", julg:"28/05/2026",
+    q:"Definir se o INSS pode cancelar administrativamente benefício por incapacidade concedido por decisão judicial definitiva, sem nova ação.",
+    tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
+    assuntos:["Previdenciário","Benefício por incapacidade"] },
+  { seq:9, num:"Controvérsia 744", tipo:"Controvérsia", orgao:"1ª Seção", situacao:"afetado", flag:"novo",
+    afet:"24/09/2026", julg:"",
+    q:"Definir a incidência de contribuição previdenciária sobre valores pagos a título de abono único previsto em convenção coletiva.",
+    tese:"", assuntos:["Tributário","Contribuições"] },
+  { seq:10, num:"Controvérsia 758", tipo:"Controvérsia", orgao:"3ª Seção", situacao:"afetado", flag:"novo",
+    afet:"24/09/2026", julg:"",
+    q:"Definir se a grande quantidade de droga apreendida, isoladamente, impede a aplicação da causa de diminuição do tráfico privilegiado.",
+    tese:"", assuntos:["Penal","Tráfico de drogas"] },
+  { seq:11, num:"Tema 1.209", tipo:"Tema Repetitivo", orgao:"3ª Seção", situacao:"julgado", flag:"",
+    afet:"15/05/2025", julg:"20/08/2026",
+    q:"Definir o marco interruptivo da prescrição da pretensão executória na execução penal.",
+    tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
+    assuntos:["Processo penal","Prescrição"] },
+  { seq:12, num:"Tema 1.198", tipo:"Tema Repetitivo", orgao:"Corte Especial", situacao:"julgado", flag:"mud",
+    afet:"09/10/2024", julg:"25/06/2026",
+    q:"Definir se a multa diária (astreintes) por descumprimento de decisão judicial exige intimação pessoal do devedor.",
+    tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
+    assuntos:["Processo civil","Astreintes"] },
+  { seq:13, num:"SIRDR 42", tipo:"SIRDR", orgao:"2ª Seção", situacao:"afetado", flag:"novo",
+    afet:"24/09/2026", julg:"",
+    q:"Pedido de suspensão nacional dos processos que discutem a cobrança de tarifa de religação de energia elétrica, em razão de IRDR admitido em tribunal de origem.",
+    tese:"", assuntos:["Suspensão nacional","Serviços públicos"] },
+  { seq:14, num:"PUIL 2.015", tipo:"PUIL", orgao:"1ª Seção", situacao:"julgado", flag:"",
+    afet:"10/02/2025", julg:"18/06/2026",
+    q:"Uniformização de interpretação de lei federal divergente entre turmas recursais dos Juizados Especiais Federais quanto a benefício assistencial.",
+    tese:"[Tese de exemplo — o texto real vem da base do STJ.]",
+    assuntos:["Juizados Especiais","Assistência social"] },
+  { seq:15, num:"Tema 1.044", tipo:"Tema Repetitivo", orgao:"1ª Seção", situacao:"cancelado", flag:"",
+    afet:"20/08/2021", julg:"",
+    q:"Definir a base de cálculo da contribuição ao SAT/RAT — precedente cancelado por perda de objeto após alteração legislativa.",
+    tese:"", assuntos:["Tributário"] },
+  { seq:16, num:"Tema 905", tipo:"Tema Repetitivo", orgao:"2ª Seção", situacao:"revisado", flag:"mud",
+    afet:"10/05/2017", julg:"14/08/2024",
+    q:"Índices de correção monetária e juros de mora aplicáveis às condenações da Fazenda Pública (tese revista parcialmente).",
+    tese:"[Tese revista — o texto real e o vínculo com o entendimento anterior vêm da base do STJ.]",
+    assuntos:["Processo civil","Juros e correção"] },
+];
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let tiposAtivos=new Set(), selecionado=null, soFavoritos=false;
+let favoritos=new Set();
+try{ favoritos=new Set(JSON.parse(localStorage.getItem("stjai_favs")||"[]")); }catch(e){}
+function salvarFavs(){ try{ localStorage.setItem("stjai_favs", JSON.stringify([...favoritos])); }catch(e){} }
+function atualizarContadorFav(){ const b=document.querySelector("#fav-count"); if(b) b.textContent=favoritos.size?` (${favoritos.size})`:""; }
+function toggleFav(seq){
+  favoritos.has(seq)?favoritos.delete(seq):favoritos.add(seq);
+  salvarFavs(); atualizarContadorFav(); render();
+  if(selecionado!=null){ const dd=DADOS.find(d=>d.seq===selecionado); if(dd) detalhe(dd); }
+}
+
+// stamp + métricas do "o que mudou"
+$("#stamp").textContent="atualizado 03/10/2026";
+$("#m-novo").textContent = DADOS.filter(d=>d.flag==="novo"&&d.situacao==="afetado"||d.flag==="novo"&&d.tipo).length;
+$("#m-afet").textContent = DADOS.filter(d=>d.flag==="novo"&&d.situacao==="afetado").length;
+$("#m-tese").textContent = DADOS.filter(d=>d.flag==="novo"&&d.situacao==="julgado").length;
+
+// popular filtro de órgão
+[...new Set(DADOS.map(d=>d.orgao))].forEach(o=>{
+  const op=document.createElement("option"); op.value=o; op.textContent=o; $("#f-orgao").appendChild(op);
+});
+
+function tagClass(t){ return t==="Tema Repetitivo"?"rep":t==="Controvérsia"?"contro":t==="IAC"?"iac":t==="SIRDR"?"sirdr":"puil"; }
+function tagLabel(t){ return t==="Tema Repetitivo"?"Repetitivo":t; }
+function bucketOf(s){ return s==="julgado"?"Julgado":s==="afetado"?"Aguardando julgamento":s==="cancelado"?"Cancelado/Prejudicado":s==="revisado"?"Revisado":s; }
+function dotClass(b){ return b==="Julgado"?"julgado":b==="Cancelado/Prejudicado"?"cancelado":b==="Revisado"?"revisado":"afetado"; }
+function sitColor(b){ return b==="Julgado"?"var(--verde)":b==="Cancelado/Prejudicado"?"#9a9a9a":b==="Revisado"?"#7FA8FF":"var(--ambar)"; }
+
+function render(){
+  const orgao=$("#f-orgao").value, status=$("#f-status").value, q=$("#f-busca").value.toLowerCase().trim();
+  const lista=$("#lista"); lista.innerHTML="";
+  const filtrados=DADOS.filter(d=>{
+    if(soFavoritos && !favoritos.has(d.seq)) return false;
+    if(tiposAtivos.size && !tiposAtivos.has(d.tipo)) return false;
+    if(orgao && d.orgao!==orgao) return false;
+    const b=bucketOf(d.situacao);
+    if(status==="ativos"){ if(b==="Cancelado/Prejudicado"||b==="Vinculada a tema") return false; }
+    else if(status && status!=="todas"){ if(b!==status) return false; }
+    if(q && !(d.num+" "+d.q+" "+d.assuntos.join(" ")).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  if(!filtrados.length){ lista.innerHTML='<div class="vazio">Nada encontrado com esses filtros. Tente afrouxar a busca.</div>'; return; }
+  const MAX=500, mostra=filtrados.slice(0,MAX);
+  if(filtrados.length>MAX){ const n=document.createElement("div"); n.className="vazio"; n.style.textAlign="left"; n.textContent=`Mostrando ${MAX} de ${filtrados.length}. Use os filtros, os tipos ou a busca para refinar.`; lista.appendChild(n); }
+  mostra.forEach(d=>{
+    const el=document.createElement("div");
+    el.className="card"+(selecionado===d.seq?" sel":"");
+    el.innerHTML=`
+      <div class="linha1">
+        <span class="num">${d.num}</span>
+        <span class="tag ${tagClass(d.tipo)}">${tagLabel(d.tipo)}</span>
+        <span class="direita">
+          ${d.flag==="novo"?'<span class="flag novo">Novo</span>':d.flag==="mud"?'<span class="flag mud">Atualizado</span>':''}
+          <button class="fav ${favoritos.has(d.seq)?'on':''}" aria-label="Favoritar" title="Acompanhar este tema">★</button>
+        </span>
+      </div>
+      <div class="org"><span class="dot ${dotClass(bucketOf(d.situacao))}"></span>${d.orgao} · ${bucketOf(d.situacao)}</div>
+      <div class="q">${d.q}</div>`;
+    el.onclick=()=>{ selecionado=d.seq; render(); detalhe(d); };
+    el.querySelector(".fav").onclick=(ev)=>{ ev.stopPropagation(); toggleFav(d.seq); };
+    lista.appendChild(el);
+  });
+}
+
+function detalhe(d){
+  const box=$("#detalhe");
+  box.innerHTML=`
+    <div class="dhead">
+      <p class="dnum">${d.num}</p>
+      <button class="fav ${favoritos.has(d.seq)?'on':''}" id="fav-det" aria-label="Favoritar" title="Acompanhar este tema">★</button>
+    </div>
+    <div class="drow">
+      <span class="tag ${tagClass(d.tipo)}">${tagLabel(d.tipo)}</span>
+      <span class="tag">${d.orgao}</span>
+      <span class="tag" style="color:${sitColor(bucketOf(d.situacao))}">${bucketOf(d.situacao)}</span>
+    </div>
+    <div class="datas">
+      ${d.afet?`<div>afetado<br><b style="color:#ccc">${d.afet}</b></div>`:''}
+      ${d.julg?`<div>julgado<br><b style="color:#ccc">${d.julg}</b></div>`:''}
+    </div>
+    <h3>Questão submetida</h3>
+    <p>${d.q}</p>
+    ${d.tese?`<h3>Tese firmada</h3><p class="tese">${d.tese}</p>`:'<h3>Tese firmada</h3><p style="color:var(--txt2)">Sem tese firmada.</p>'}
+    <h3>Assuntos</h3>
+    <div class="assuntos">${d.assuntos.map(a=>`<span>${a}</span>`).join("")}</div>`;
+  const fb=box.querySelector("#fav-det"); if(fb) fb.onclick=()=>toggleFav(d.seq);
+}
+
+$$(".chip").forEach(c=>c.onclick=()=>{
+  if(c.id==="chip-fav"){
+    soFavoritos=!soFavoritos;
+    c.setAttribute("aria-pressed", String(soFavoritos));
+    render(); return;
+  }
+  const t=c.dataset.tipo, on=c.getAttribute("aria-pressed")==="true";
+  c.setAttribute("aria-pressed", String(!on));
+  on?tiposAtivos.delete(t):tiposAtivos.add(t);
+  render();
+});
+atualizarContadorFav();
+["#f-orgao","#f-status"].forEach(s=>$(s).onchange=render);
+$("#f-busca").oninput=render;
+
+render();
+</script>
+</body>
+</html>
