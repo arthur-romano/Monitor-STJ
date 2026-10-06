@@ -1,0 +1,46 @@
+RELATORIO DO COLETOR STJ  -  05/10/2026 22:25
+codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
+
+== POR TIPO ==
+  Tema Repetitivo: 1474
+  Controvérsia: 830
+  PUIL: 27
+  IAC: 22
+  SIRDR: 11
+
+== POR SITUACAO (agrupada) ==
+  Julgado: 1170
+  Cancelado/Prejudicado: 532
+  Vinculada a tema: 465
+  Aguardando julgamento: 178
+  Outros: 12
+  Suspensão (SIRDR): 7
+
+== POR ORGAO ==
+  1ª Seção: 1291
+  2ª Seção: 516
+  3ª Seção: 367
+  Corte Especial: 183
+  (sem órgão): 7
+
+== PRIMEIRA RODADA ==
+Esta e a foto inicial; nao ha com o que comparar ainda.
+Rode de novo depois (dias depois) e eu mostro aqui os NOVOS e os que MUDARAM.
+
+== 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
+
+[Tema Repetitivo] 1  (Corte Especial)
+  situacao: Trânsito em Julgado  (grupo: Julgado)
+  datas -> afetacao: 2008-10-10 | julgamento: 2012-05-02 | publicacao: 2012-05-29
+  assuntos: 8826- DIREITO PROCESSUAL CIVIL E DO TRABALHO, 8867- Substituição Processual, 9494- Substituição da Parte
+  RG/STF: 361
+  QUESTAO: Questão referente à necessidade de anuência do devedor para substituição processual do polo ativo, decorrente de cessão de crédito, nos autos de ação de execução.
+  TESE: A substituição processual, no polo ativo da execução, do exequente originário pelo cessionário dispensa a autorização ou o consentimento do devedor.
+
+[Controvérsia] 1  (2ª Seção)
+  situacao: Vinculada a Tema  (grupo: Vinculada a tema)
+  datas -> afetacao: - | julgamento: - | publicacao: -
+  assuntos: 1156- DIREITO DO CONSUMIDOR, 7771- Contratos de Consumo, 6233- Planos de Saúde
+  RG/STF: -
+  QUESTAO: Validade da cláusula contratual de plano de saúde que prevê o aumento da mensalidade conforme a mudança de faixa etária do usuário na modalidade dos planos de saúde coletivos.
+  TESE: (ainda sem tese)
