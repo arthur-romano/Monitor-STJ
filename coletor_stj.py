@@ -222,7 +222,30 @@ def split_assuntos(s):
     return out[:6]
 
 
-def categoria(s):
+# Sinais de texto de ALTA precisao. So entram em acao quando o CNJ etiquetou o
+# tema apenas como o generico "Direito Civil" (ou nao etiquetou ramo nenhum) -
+# que e justamente onde caem os temas mal classificados na origem. Se a base ja
+# deu uma area especifica (Penal, Previdenciario...), confiamos nela.
+SINAIS_AREA = [
+    ("Direito Tributário", ["tribut", " ctn", "codigo tributario", "credito tributario",
+        "divida ativa", "execucao fiscal", " icms", " issqn", " ipi ", " pis ", "cofins",
+        " iptu", " itbi", " itcmd", " iof", "imposto de renda", "imposto sobre",
+        "contribuicao previdenciaria", "contribuicao social", "isencao fiscal", "creditamento"]),
+    ("Direito Penal", ["direito penal", "execucao penal", "trafico", "dosimetria",
+        "regime prisional", "reincidencia", " crime", "delito", "habeas corpus"]),
+    ("Direito Previdenciário", [" inss", "aposentadoria", "beneficio por incapacidade",
+        "auxilio-doenca", "auxilio por incapacidade", "pensao por morte",
+        "beneficio assistencial", " loas", "salario-maternidade"]),
+    ("Direito do Consumidor", ["consumidor", "relacao de consumo", "codigo de defesa do consumidor"]),
+    ("Direito do Trabalho", ["trabalhista", " clt ", "verbas rescisorias", "vinculo empregaticio", " fgts"]),
+    ("Direito Administrativo e Outras Matérias de Direito Público",
+        ["improbidade", "licitacao", "servidor publico", "concurso publico", "desapropriacao"]),
+]
+
+GENERICOS = {"Direito Civil", "(sem classificação)"}
+
+
+def _ramo_cnj(s):
     # O "ramo do direito" (DIREITO CIVIL, DIREITO TRIBUTARIO, ...) vem em CAIXA
     # ALTA na lista de assuntos, mas NEM SEMPRE na primeira posicao (as vezes
     # aparece no fim). Pega o primeiro trecho em maiuscula que comeca com DIREITO.
@@ -231,6 +254,16 @@ def categoria(s):
         if p and p == p.upper() and sem_acento(p).startswith("direito"):
             return titulo(p)
     return "(sem classificação)"
+
+
+def categoria(assuntos, questao=""):
+    ramo = _ramo_cnj(assuntos)
+    if ramo in GENERICOS:
+        texto = " " + sem_acento((questao or "") + " " + assuntos) + " "
+        for area, chaves in SINAIS_AREA:
+            if any(k in texto for k in chaves):
+                return area
+    return ramo
 
 def fmt_data(d):
     # 2008-10-10 -> 10/10/2008
@@ -253,7 +286,7 @@ for seq, rec in agora.items():
         "julg": fmt_data(rec["julgamento"]),
         "q": rec["questao"],
         "tese": rec["tese"],
-        "cat": categoria(rec["assuntos"]),
+        "cat": categoria(rec["assuntos"], rec["questao"]),
         "assuntos": split_assuntos(rec["assuntos"]),
     })
 
