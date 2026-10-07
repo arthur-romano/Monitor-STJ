@@ -1,4 +1,4 @@
-RELATORIO DO COLETOR STJ  -  06/10/2026 07:22
+RELATORIO DO COLETOR STJ  -  07/10/2026 07:23
 codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
 
 == POR TIPO ==
@@ -9,10 +9,10 @@ codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
   SIRDR: 11
 
 == POR SITUACAO (agrupada) ==
-  Julgado: 1170
+  Julgado: 1171
   Cancelado/Prejudicado: 532
   Vinculada a tema: 465
-  Aguardando julgamento: 178
+  Aguardando julgamento: 177
   Outros: 12
   Suspensão (SIRDR): 7
 
@@ -25,7 +25,11 @@ codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
 
 == NOVOS desde a ultima rodada: 0 ==
 
-== MUDARAM desde a ultima rodada: 0 ==
+== MUDARAM desde a ultima rodada: 1 ==
+  [Tema Repetitivo] 51 | Corte Especial
+        - situacao: Em Julgamento -> Mérito Julgado
+        - tese: passou a ter texto
+        - julgamento: (vazio) -> 2026-09-15
 
 == 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
 
