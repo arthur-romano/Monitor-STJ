@@ -1,4 +1,4 @@
-RELATORIO DO COLETOR STJ  -  09/10/2026 07:24
+RELATORIO DO COLETOR STJ  -  10/10/2026 07:19
 codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
 
 == POR TIPO ==
@@ -25,11 +25,7 @@ codificacao: utf-8 | separador: ',' | total: 2364 precedentes | 22 colunas
 
 == NOVOS desde a ultima rodada: 0 ==
 
-== MUDARAM desde a ultima rodada: 2 ==
-  [Tema Repetitivo] 1229 | 1ª Seção
-        - situacao: Acórdão Publicado - RE Pendente -> Trânsito em Julgado
-  [Tema Repetitivo] 1383 | 3ª Seção
-        - situacao: Acórdão Publicado -> Trânsito em Julgado
+== MUDARAM desde a ultima rodada: 0 ==
 
 == 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
 
