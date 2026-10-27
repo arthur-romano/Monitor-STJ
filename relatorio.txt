@@ -1,4 +1,4 @@
-RELATORIO DO COLETOR STJ  -  25/10/2026 07:29
+RELATORIO DO COLETOR STJ  -  27/10/2026 07:38
 codificacao: utf-8 | separador: ',' | total: 2369 precedentes | 22 colunas
 
 == POR TIPO ==
@@ -24,111 +24,9 @@ codificacao: utf-8 | separador: ',' | total: 2369 precedentes | 22 colunas
   Corte Especial: 183
   (sem órgão): 7
 
-== NOVOS desde a ultima rodada: 5 ==
-  [] 1475 | 1ª Seção | Outros
-  [] 1476 | 1ª Seção | Outros
-  [] 1477 | 1ª Seção | Outros
-  [] 1478 | 2ª Seção | Outros
-  [] 1479 | 2ª Seção | Outros
+== NOVOS desde a ultima rodada: 0 ==
 
-== MUDARAM desde a ultima rodada: 33 ==
-  [Controvérsia] 716 | Corte Especial
-        - situacao: Pendente -> Em Afetação
-  [Controvérsia] 771 | 1ª Seção
-        - situacao: Em Afetação -> Vinculada a Tema
-  [Tema Repetitivo] 50 | Corte Especial
-        - situacao: Mérito Julgado -> Acórdão Publicado
-        - tese: alterada
-        - publicacao: (vazio) -> 2026-10-23
-  [Tema Repetitivo] 51 | Corte Especial
-        - situacao: Mérito Julgado -> Acórdão Publicado
-        - tese: alterada
-        - publicacao: (vazio) -> 2026-10-23
-  [Tema Repetitivo] 66 | 1ª Seção
-        - situacao: Acórdão Publicado -> Acórdão Publicado - RE Pendente
-  [Tema Repetitivo] 67 | 1ª Seção
-        - situacao: Acórdão Publicado -> Acórdão Publicado - RE Pendente
-  [Tema Repetitivo] 1130 | 1ª Seção
-        - situacao: Acórdão Publicado - RE Pendente -> Trânsito em Julgado
-  [Tema Repetitivo] 1154 | 3ª Seção
-        - situacao: Acórdão Publicado -> Mérito Julgado
-        - tese: alterada
-  [Tema Repetitivo] 1190 | 1ª Seção
-        - situacao: Acórdão Publicado - RE Pendente -> Trânsito em Julgado
-  [Tema Repetitivo] 1198 | Corte Especial
-        - situacao: Acórdão Publicado - RE Pendente -> Trânsito em Julgado
-  [Tema Repetitivo] 1211 | 2ª Seção
-        - situacao: Afetado -> Acórdão Publicado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-08
-        - publicacao: (vazio) -> 2026-10-23
-  [Tema Repetitivo] 1225 | Corte Especial
-        - situacao: Acórdão Publicado -> Acórdão Publicado - RE Pendente
-  [Tema Repetitivo] 1228 | 1ª Seção
-        - situacao: Mérito Julgado -> Acórdão Publicado
-        - tese: alterada
-        - publicacao: (vazio) -> 2026-10-09
-  [Tema Repetitivo] 1241 | 3ª Seção
-        - situacao: Acórdão Publicado -> Mérito Julgado
-        - tese: alterada
-  [Tema Repetitivo] 1270 | 3ª Seção
-        - situacao: Afetado -> Acórdão Publicado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-23
-  [Tema Repetitivo] 1285 | Corte Especial
-        - situacao: Em Julgamento -> Mérito Julgado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-21
-  [Tema Repetitivo] 1311 | 1ª Seção
-        - situacao: Acórdão Publicado - RE Pendente -> Trânsito em Julgado
-  [Tema Repetitivo] 1324 | 1ª Seção
-        - situacao: Afetado -> Acórdão Publicado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-14
-        - publicacao: (vazio) -> 2026-10-20
-  [Tema Repetitivo] 1332 | 3ª Seção
-        - situacao: Afetado -> Em Julgamento
-  [Tema Repetitivo] 1351 | 3ª Seção
-        - situacao: Afetado -> Em Julgamento
-  [Tema Repetitivo] 1364 | 1ª Seção
-        - situacao: Afetado -> Acórdão Publicado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-14
-        - publicacao: (vazio) -> 2026-10-20
-  [Tema Repetitivo] 1379 | 1ª Seção
-        - situacao: Afetado -> Mérito Julgado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-14
-  [Tema Repetitivo] 1380 | 1ª Seção
-        - situacao: Acórdão Publicado -> Acórdão Publicado - RE Pendente
-  [Tema Repetitivo] 1384 | 1ª Seção
-        - situacao: Mérito Julgado -> Acórdão Publicado - RE Pendente
-        - tese: alterada
-        - publicacao: (vazio) -> 2026-10-08
-  [Tema Repetitivo] 1386 | 1ª Seção
-        - situacao: Afetado -> Mérito Julgado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-14
-  [Tema Repetitivo] 1403 | 3ª Seção
-        - situacao: Em Julgamento -> Mérito Julgado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-08
-  [Tema Repetitivo] 1421 | 1ª Seção
-        - situacao: Acórdão Publicado - RE Pendente -> Trânsito em Julgado
-  [Tema Repetitivo] 1430 | 3ª Seção
-        - situacao: Afetado -> Em Julgamento
-  [Tema Repetitivo] 1431 | 3ª Seção
-        - situacao: Afetado -> Em Julgamento
-  [Tema Repetitivo] 1432 | 1ª Seção
-        - situacao: Afetado -> Mérito Julgado
-        - tese: passou a ter texto
-        - julgamento: (vazio) -> 2026-10-14
-  [Tema Repetitivo] 1433 | 1ª Seção
-        - situacao: Afetado -> Em Julgamento
-  [Tema Repetitivo] 1454 | 1ª Seção
-        - situacao: Afetado -> Em Julgamento
-  [Tema Repetitivo] 1455 | 1ª Seção
-        - situacao: Acórdão Publicado -> Acórdão Publicado - RE Pendente
+== MUDARAM desde a ultima rodada: 0 ==
 
 == 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
 
