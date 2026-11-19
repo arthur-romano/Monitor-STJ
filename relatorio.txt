@@ -1,4 +1,4 @@
-RELATORIO DO COLETOR STJ  -  18/11/2026 15:47
+RELATORIO DO COLETOR STJ  -  19/11/2026 15:57
 codificacao: utf-8 | separador: ',' | total: 2377 precedentes | 22 colunas
 
 == POR TIPO ==
@@ -11,9 +11,9 @@ codificacao: utf-8 | separador: ',' | total: 2377 precedentes | 22 colunas
 
 == POR SITUACAO (agrupada) ==
   Julgado: 1191
-  Cancelado/Prejudicado: 537
+  Cancelado/Prejudicado: 538
   Vinculada a tema: 468
-  Aguardando julgamento: 149
+  Aguardando julgamento: 148
   Outros: 25
   Suspensão (SIRDR): 7
 
@@ -26,9 +26,18 @@ codificacao: utf-8 | separador: ',' | total: 2377 precedentes | 22 colunas
 
 == NOVOS desde a ultima rodada: 0 ==
 
-== MUDARAM desde a ultima rodada: 1 ==
-  [] 1479 | 2ª Seção
-        - situacao: Relevância reconhecida com reafirmação de jurispru -> Trânsito em Julgado
+== MUDARAM desde a ultima rodada: 3 ==
+  [Tema Repetitivo] 1305 | 1ª Seção
+        - situacao: Afetado -> Cancelado
+  [Tema Repetitivo] 1352 | 1ª Seção
+        - situacao: Mérito Julgado -> Acórdão Publicado
+        - tese: alterada
+        - julgamento: (vazio) -> 2026-11-11
+        - publicacao: (vazio) -> 2026-11-18
+  [Tema Repetitivo] 1432 | 1ª Seção
+        - situacao: Mérito Julgado -> Acórdão Publicado
+        - tese: alterada
+        - publicacao: (vazio) -> 2026-11-18
 
 == 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
 
