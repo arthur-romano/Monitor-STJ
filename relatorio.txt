@@ -1,32 +1,46 @@
-RELATORIO DO COLETOR STJ  -  21/11/2026 14:21
-codificacao: utf-8 | separador: ',' | total: 2377 precedentes | 22 colunas
+RELATORIO DO COLETOR STJ  -  22/11/2026 14:45
+codificacao: utf-8 | separador: ',' | total: 2378 precedentes | 22 colunas
 
 == POR TIPO ==
   Tema Repetitivo: 1473
   Controvérsia: 830
   PUIL: 27
   IAC: 22
-  : 14
+  : 15
   SIRDR: 11
 
 == POR SITUACAO (agrupada) ==
   Julgado: 1191
-  Cancelado/Prejudicado: 538
-  Vinculada a tema: 468
-  Aguardando julgamento: 148
+  Cancelado/Prejudicado: 537
+  Vinculada a tema: 469
+  Aguardando julgamento: 149
   Outros: 25
   Suspensão (SIRDR): 7
 
 == POR ORGAO ==
   1ª Seção: 1298
-  2ª Seção: 519
+  2ª Seção: 520
   3ª Seção: 369
   Corte Especial: 184
   (sem órgão): 7
 
-== NOVOS desde a ultima rodada: 0 ==
+== NOVOS desde a ultima rodada: 1 ==
+  [] 1488 | 2ª Seção | Outros
 
-== MUDARAM desde a ultima rodada: 0 ==
+== MUDARAM desde a ultima rodada: 5 ==
+  [] 1479 | 2ª Seção
+        - julgamento: 2026-10-20 -> 2026-10-14
+  [] 1482 | 2ª Seção
+        - julgamento: 2026-10-27 -> 2026-10-21
+  [Controvérsia] 676 | 2ª Seção
+        - situacao: Em Afetação -> Vinculada a Tema
+  [Controvérsia] 809 | 2ª Seção
+        - situacao: Cancelada -> Pendente
+  [Tema Repetitivo] 1400 | 1ª Seção
+        - situacao: Mérito Julgado -> Acórdão Publicado
+        - tese: alterada
+        - julgamento: (vazio) -> 2026-11-11
+        - publicacao: (vazio) -> 2026-11-19
 
 == 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
 
