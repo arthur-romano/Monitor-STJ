@@ -1,4 +1,4 @@
-RELATORIO DO COLETOR STJ  -  23/11/2026 18:59
+RELATORIO DO COLETOR STJ  -  24/11/2026 17:36
 codificacao: utf-8 | separador: ',' | total: 2378 precedentes | 22 colunas
 
 == POR TIPO ==
@@ -26,7 +26,13 @@ codificacao: utf-8 | separador: ',' | total: 2378 precedentes | 22 colunas
 
 == NOVOS desde a ultima rodada: 0 ==
 
-== MUDARAM desde a ultima rodada: 0 ==
+== MUDARAM desde a ultima rodada: 2 ==
+  [] 1488 | 2ª Seção
+        - tese: alterada
+  [Tema Repetitivo] 1469 | 1ª Seção
+        - situacao: Mérito Julgado -> Acórdão Publicado
+        - tese: alterada
+        - publicacao: (vazio) -> 2026-11-23
 
 == 2 EXEMPLOS REAIS (para conferirmos o conteudo) ==
 
